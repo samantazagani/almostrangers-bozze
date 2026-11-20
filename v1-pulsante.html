@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALMOSTRANGERS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #02030a;
+    --ink: #f3f0e8;
+    --ink-dim: rgba(243, 240, 232, 0.55);
+    --halo-yellow: #e6f26a;
+    --halo-blue: #2f5bff;
+    --font-display: "Cormorant Garamond", "Cormorant", Georgia, "Times New Roman", serif;
+    /* layout: one full-height stage, eclipse centred at 46% height, title across the disc, links bottom-left */
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--black); color: var(--ink); }
+  body { overflow: hidden; font-family: var(--font-display); }
+
+  .hero { position: relative; width: 100%; height: 100%; min-height: 420px; background: var(--black); }
+  #sky { position: absolute; inset: 0; display: block; }
+
+  .title {
+    position: absolute; left: 0; right: 0; top: 46%;
+    transform: translateY(-50%);
+    margin: 0; padding: 0 16px;
+    text-align: center; pointer-events: none;
+    font-weight: 300;
+    font-size: clamp(1.05rem, 4.4vw, 4rem);
+    letter-spacing: 0.42em;
+    padding-left: calc(16px + 0.42em);   /* balances the trailing letter-spacing */
+    white-space: nowrap;
+    text-shadow: 0 0 24px rgba(2, 3, 10, 0.9), 0 0 2px rgba(2, 3, 10, 0.9);
+  }
+  .title span {
+    display: inline-block;
+    animation: rise 2.2s cubic-bezier(.2,.7,.2,1) backwards;
+    animation-delay: calc(var(--i) * 90ms + 400ms);
+  }
+  @keyframes rise {
+    from { opacity: 0; filter: blur(12px); transform: translateY(10px); }
+    to   { opacity: 1; filter: blur(0);    transform: none; }
+  }
+
+  .links {
+    position: absolute; left: 24px; right: 24px; bottom: 22px;
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 0.95rem; letter-spacing: 0.22em; text-transform: uppercase;
+    animation: fade 2.4s ease 1.6s backwards;
+  }
+  .links a { color: var(--ink-dim); text-decoration: none; transition: color .25s; }
+  .links a:hover, .links a:focus-visible { color: var(--ink); }
+  .links a:focus-visible { outline: 1px solid var(--halo-yellow); outline-offset: 4px; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .title span, .links { animation: none; }
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <h1 class="title" aria-label="ALMOSTRANGERS"><span style="--i:0">A</span><span style="--i:1">L</span><span style="--i:2">M</span><span style="--i:3">O</span><span style="--i:4">S</span><span style="--i:5">T</span><span style="--i:6">R</span><span style="--i:7">A</span><span style="--i:8">N</span><span style="--i:9">G</span><span style="--i:10">E</span><span style="--i:11">R</span><span style="--i:12">S</span></h1>
+  <nav class="links" aria-label="Link">
+    <a href="https://www.instagram.com/almostrangersmusic/">Instagram</a>
+    <a href="https://www.instagram.com/almostrangersmusic/">@almostrangersmusic</a>
+  </nav>
+</main>
+
+<script>
+(function () {
+  var TAU = Math.PI * 2;
+  var cv = document.getElementById('sky');
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, DPR = 1, cx = 0, cy = 0, R = 0;
+
+  // deterministic random so the sky is the same on every load
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+      var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  var rand = rng(20261120);
+
+  var N = 320;
+  var rn = new Float32Array(N), ph = new Float32Array(N);
+  for (var i = 0; i < N; i++) { rn[i] = rand(); ph[i] = rand(); }
+
+  var stars = [];
+  for (var k = 0; k < 110; k++) {
+    stars.push({ x: rand(), y: rand(), r: 0.6 + rand() * 1.1, sp: 0.4 + rand() * 1.2, ph: rand() * TAU });
+  }
+
+  var ptr = { x: 0, y: 0, tx: 0, ty: 0 };
+
+  function size() {
+    var b = cv.parentElement.getBoundingClientRect();
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = Math.max(1, b.width); H = Math.max(1, b.height);
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    cx = W / 2; cy = H * 0.46;
+    R = Math.min(W * 0.26, H * 0.24);
+  }
+
+  function draw(t) {
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#02030a';
+    ctx.fillRect(0, 0, W, H);
+
+    // stars
+    ctx.fillStyle = '#fff';
+    for (var s = 0; s < stars.length; s++) {
+      var st = stars[s];
+      ctx.globalAlpha = 0.18 + 0.22 * Math.sin(t * st.sp + st.ph);
+      ctx.fillRect(st.x * W, st.y * H, st.r, st.r);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    // slow pulse, about one beat every 3.5 s
+    var pulse = 0.5 + 0.5 * Math.sin(t * 1.8);
+
+    // halo
+    var g = ctx.createRadialGradient(cx, cy, R * 0.95, cx, cy, R * 2.2);
+    g.addColorStop(0, 'rgba(190,210,110,' + (0.22 + 0.22 * pulse) + ')');
+    g.addColorStop(0.22, 'rgba(60,90,255,' + (0.11 + 0.12 * pulse) + ')');
+    g.addColorStop(1, 'rgba(0,0,40,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, R * 2.2, 0, TAU); ctx.fill();
+
+    // corona rays: three segments per ray (yellow-white, blue, deep blue)
+    var r0 = R * 1.01, base = t * 0.02;
+    var A = new Float32Array(N), L = new Float32Array(N);
+    for (var n = 0; n < N; n++) {
+      var a = TAU * n / N + base + 0.004 * Math.sin(t * 0.8 + ph[n] * 6);
+      var len = R * (0.16 + 1.05 * Math.pow(rn[n], 2.4) * (0.65 + 0.35 * Math.sin(t * 0.5 + ph[n] * TAU)))
+                  * (0.75 + 0.25 * Math.sin(a * 2 + t * 0.15)) * (0.85 + 0.35 * pulse);
+      A[n] = a; L[n] = len;
+    }
+    var passes = [
+      [0, 0.30, 'rgba(243,240,160,0.55)', 1],
+      [0.30, 0.65, 'rgba(91,140,255,0.42)', 0.9],
+      [0.65, 1, 'rgba(42,70,255,0.20)', 0.8]
+    ];
+    for (var p = 0; p < passes.length; p++) {
+      var ps = passes[p];
+      ctx.strokeStyle = ps[2]; ctx.lineWidth = ps[3];
+      ctx.beginPath();
+      for (var m = 0; m < N; m++) {
+        var cs = Math.cos(A[m]), sn = Math.sin(A[m]);
+        var d1 = r0 + L[m] * ps[0], d2 = r0 + L[m] * ps[1];
+        ctx.moveTo(cx + cs * d1, cy + sn * d1);
+        ctx.lineTo(cx + cs * d2, cy + sn * d2);
+      }
+      ctx.stroke();
+    }
+
+    // concentric rings
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = 'rgba(80,120,255,0.38)';
+    ctx.beginPath(); ctx.arc(cx, cy, R * (1.18 + 0.03 * pulse), 0, TAU); ctx.stroke();
+    ctx.setLineDash([2, 10]);
+    ctx.strokeStyle = 'rgba(180,200,255,0.30)';
+    ctx.beginPath(); ctx.arc(cx, cy, R * 1.62, 0, TAU); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(180,200,255,0.12)';
+    ctx.beginPath(); ctx.arc(cx, cy, R * 2.2, 0, TAU); ctx.stroke();
+
+    // graduated ring (protractor ticks), slowly counter-rotating
+    ctx.strokeStyle = 'rgba(200,215,255,0.32)';
+    ctx.beginPath();
+    for (var tk = 0; tk < 180; tk++) {
+      var ta = TAU * tk / 180 - t * 0.015;
+      var tl = (tk % 10 === 0) ? R * 0.07 : R * 0.03;
+      var ri = R * 1.38, ro = ri + tl;
+      ctx.moveTo(cx + Math.cos(ta) * ri, cy + Math.sin(ta) * ri);
+      ctx.lineTo(cx + Math.cos(ta) * ro, cy + Math.sin(ta) * ro);
+    }
+    ctx.stroke();
+
+    // eclipse body: sun disc, then the moon drifting across it
+    ctx.globalCompositeOperation = 'source-over';
+    var sg = ctx.createRadialGradient(cx, cy, 0, cx, cy, R);
+    sg.addColorStop(0, '#fffdf0'); sg.addColorStop(1, '#e6f26a');
+    ctx.fillStyle = sg;
+    ctx.beginPath(); ctx.arc(cx, cy, R, 0, TAU); ctx.fill();
+
+    var mx = Math.cos(t * 0.12) * R * 0.03 + ptr.x * R * 0.03;
+    var my = Math.sin(t * 0.09) * R * 0.03 + ptr.y * R * 0.025;
+    ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(cx + mx, cy + my, R * 1.0, 0, TAU); ctx.fill();
+
+    // thin glowing ring around the moon
+    var rg = ctx.createLinearGradient(cx - R, cy - R, cx + R, cy + R);
+    rg.addColorStop(0, '#e6f26a'); rg.addColorStop(0.5, '#cfe9ff'); rg.addColorStop(1, '#2f5bff');
+    ctx.strokeStyle = rg; ctx.lineWidth = 1.8;
+    ctx.shadowColor = 'rgba(120,170,255,0.9)'; ctx.shadowBlur = 10 + 20 * pulse;
+    ctx.beginPath(); ctx.arc(cx + mx, cy + my, R * 1.012, 0, TAU); ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
+  size();
+  window.addEventListener('resize', function () { size(); if (still) draw(6); });
+
+  var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) { draw(6); return; }
+
+  window.addEventListener('pointermove', function (e) {
+    var b = cv.getBoundingClientRect();
+    ptr.tx = ((e.clientX - b.left) / b.width - 0.5) * 2;
+    ptr.ty = ((e.clientY - b.top) / b.height - 0.5) * 2;
+  });
+
+  var t0 = performance.now();
+  function loop(now) {
+    ptr.x += (ptr.tx - ptr.x) * 0.04;
+    ptr.y += (ptr.ty - ptr.y) * 0.04;
+    draw((now - t0) / 1000 + 6);
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
