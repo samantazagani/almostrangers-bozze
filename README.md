@@ -7,3 +7,4 @@ Bozze dell'hero del sito della band. Ogni versione è un singolo file HTML, senz
 - `brace.html`: stessa eclissi in oro, arancio e rosso
 - `index.html`: pagina con i link alle tre versioni
 - `v1-titolo-nel-cerchio.html` e `fiamme-titolo-nel-cerchio.html`: le stesse versioni con il titolo dentro il disco nero
+- `fiamme-sfumata.html`: Fiamme con i filamenti leggermente più sfumati
