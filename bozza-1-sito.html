@@ -94,7 +94,8 @@
   .big em { font-style: italic; color: var(--ember-hot); }
   .bio { font-size: clamp(1.02rem, 1.3vw, 1.2rem); line-height: 1.75; color: rgba(222,216,198,.82); max-width: 29em; margin: 0 0 1.4rem; }
   .bio em { font-style: italic; color: var(--ember-hot); }
-  .verse { margin: 0; font-family: var(--display); text-transform: uppercase; font-weight: 400; color: transparent; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6 0 0 0 -4.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(185deg, #b4ae9b, #787360); -webkit-background-clip: text; background-clip: text; }
+  .verse { margin: 0; font-family: var(--display); text-transform: uppercase; font-weight: 400; }
+  .verse .ln { color: transparent; -webkit-text-fill-color: transparent; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6 0 0 0 -4.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(185deg, #b4ae9b, #787360); -webkit-background-clip: text; background-clip: text; }
   .verse .ln { display: block; font-size: clamp(1.3rem, 2.7vw, 2.9rem); letter-spacing: .3em; line-height: 1.25; margin-bottom: .6em; white-space: nowrap; }
   .verse .ln + .ln { margin-top: .5em; }
   .verse .l2 { padding-left: 1em; }
@@ -155,7 +156,8 @@
   .links-big a:hover, .links-big a:focus-visible { color: var(--ember-hot); outline: none; }
   .links-big a:hover::after, .links-big a:focus-visible::after { transform: none; }
   .links-big a:hover .lbl, .links-big a:focus-visible .lbl { letter-spacing: .351em; background: linear-gradient(95deg, var(--ember-hot), var(--ember) 60%, var(--blood)); -webkit-background-clip: text; background-clip: text; }
-  .links-big .arr { font-family: var(--serif); font-size: 1.4rem; letter-spacing: 0; }
+  .links-big .arr { font-size: 1.5rem; letter-spacing: 0; display: inline-flex; }
+  .links-big .arr .arrsvg { display: block; }
   footer { padding: 40px clamp(22px, 7vw, 120px) 56px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px; font-family: var(--display); text-transform: uppercase; font-size: .8rem; color: rgba(214,208,190,.4); letter-spacing: .3em; }
 
   @media (max-width: 860px) {
@@ -263,9 +265,9 @@
 <section id="listen">
   <p class="kicker rv">Listen</p>
   <ul class="links-big">
-    <li class="rv"><a href="https://almostrangers.bandcamp.com/album/the-human-nature" target="_blank" rel="noopener"><span class="lbl">Bandcamp</span><span class="arr">&nearr;</span></a></li>
-    <li class="rv" style="--d:120ms"><a href="https://open.spotify.com/intl-it/artist/5aSarVm68qPC2nJDN1EQiE" target="_blank" rel="noopener"><span class="lbl">Spotify</span><span class="arr">&nearr;</span></a></li>
-    <li class="rv" style="--d:240ms"><a href="https://www.instagram.com/almostrangersmusic/" target="_blank" rel="noopener"><span class="lbl">Instagram</span><span class="arr">&nearr;</span></a></li>
+    <li class="rv"><a href="https://almostrangers.bandcamp.com/album/the-human-nature" target="_blank" rel="noopener"><span class="lbl">Bandcamp</span><span class="arr"><svg class="arrsvg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a></li>
+    <li class="rv" style="--d:120ms"><a href="https://open.spotify.com/intl-it/artist/5aSarVm68qPC2nJDN1EQiE" target="_blank" rel="noopener"><span class="lbl">Spotify</span><span class="arr"><svg class="arrsvg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a></li>
+    <li class="rv" style="--d:240ms"><a href="https://www.instagram.com/almostrangersmusic/" target="_blank" rel="noopener"><span class="lbl">Instagram</span><span class="arr"><svg class="arrsvg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a></li>
   </ul>
 </section>
 </main>
@@ -350,6 +352,7 @@
     var bb = cv.parentElement.getBoundingClientRect();
     DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     W = Math.max(1, bb.width); H = Math.max(1, bb.height);
+    DPR = Math.max(0.4, Math.min(DPR, Math.sqrt(0.75e6 / (W * H))) * (window.__q || 1));
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
     cv.style.width = W + 'px'; cv.style.height = H + 'px';
     cx = W / 2; cy = H * 0.46;
@@ -587,6 +590,9 @@
   var t0 = performance.now();
   function loop(now) {
     if (window.__heroOff) { requestAnimationFrame(loop); return; }
+    var __d = now - (window.__lt || now); window.__lt = now; window.__ema = (window.__ema || 16) * 0.9 + Math.min(__d, 400) * 0.1; window.__n = (window.__n || 0) + 1;
+    if (window.__n > 25 && window.__ema > 70 && (window.__q || 1) > 0.6) { window.__q = 0.6; window.__n = 0; window.__ema = 16; window.dispatchEvent(new Event('resize')); }
+    else if (window.__n > 25 && window.__ema > 110) { window.__sk3 = (window.__sk3 || 0) + 1; if (window.__sk3 % 3) { requestAnimationFrame(loop); return; } }
     if ((window.__heroZ || 1) > 1.02) { window.__sk = !window.__sk; if (window.__sk) { requestAnimationFrame(loop); return; } }
     ptr.x += (tgt.x - ptr.x) * 0.04; ptr.y += (tgt.y - ptr.y) * 0.04;
     draw(((now - t0) / 1000) * 0.55 + 6);
