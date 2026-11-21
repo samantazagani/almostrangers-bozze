@@ -1,10 +1,7 @@
 # ALMOSTRANGERS bozze
 
-Bozze dell'hero del sito della band. Ogni versione è un singolo file HTML, senza dipendenze (solo il font Cormorant Garamond da Google Fonts).
+Bozze del sito della band. Ogni versione è un singolo file HTML.
 
-- `v1-pulsante.html`: eclissi a linee, pulsazione lenta
-- `fiamme.html`: corona di filamenti, anello giallo-verde e blu
-- `brace.html`: stessa eclissi in oro, arancio e rosso
-- `index.html`: pagina con i link alle tre versioni
-- `v1-titolo-nel-cerchio.html` e `fiamme-titolo-nel-cerchio.html`: le stesse versioni con il titolo dentro il disco nero
-- `fiamme-sporca.html`: versione scura e imperfetta, titolo nel cerchio
+- `bozza-1-sito.html`: BOZZA 1 SITO, il sito completo (hero con eclissi, The ritual, The Human Nature, The next ritual, The two, Listen). Carica i font da Google Fonts.
+- `fiamme-sporca.html`: solo l'hero, versione scura e imperfetta con il titolo nel cerchio.
+- `index.html`: pagina con i link alle due bozze.
