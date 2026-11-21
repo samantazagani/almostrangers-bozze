@@ -65,6 +65,8 @@
   .rv.in { opacity: 1; transform: none; filter: none; }
   .verse .ln { opacity: 0; transform: translateY(26px); filter: blur(7px); transition: opacity 1.3s cubic-bezier(.2,.7,.2,1) var(--d, 0ms), transform 1.3s cubic-bezier(.2,.7,.2,1) var(--d, 0ms), filter 1.3s cubic-bezier(.2,.7,.2,1) var(--d, 0ms); }
   .verse.in .ln { opacity: 1; transform: none; filter: none; }
+  .verse .ln { transition-duration: 1.7s; }
+  .verse .l1 { --d: 0ms !important; } .verse .l2 { --d: 450ms !important; } .verse .l3 { --d: 900ms !important; }
   .btn { display: inline-flex; align-items: center; gap: 14px; font-family: var(--display); font-size: .85rem; letter-spacing: .405em; text-transform: uppercase; padding: 17px 26px; border: 1px solid rgba(214,208,190,.28); color: var(--bone);
     position: relative; overflow: hidden; isolation: isolate; transition: color .35s, border-color .35s; }
   .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(224,98,42,.22), rgba(224,98,42,0) 60%); transform: translateX(-101%); transition: transform .5s cubic-bezier(.2,.7,.2,1); z-index: -1; }
@@ -87,7 +89,7 @@
   .bio { font-size: clamp(1.02rem, 1.3vw, 1.2rem); line-height: 1.75; color: rgba(222,216,198,.82); max-width: 29em; margin: 0 0 1.4rem; }
   .bio em { font-style: italic; color: var(--ember-hot); }
   .verse { margin: 0; font-family: var(--display); text-transform: uppercase; font-weight: 400; color: transparent; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  6 0 0 0 -4.05'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"), linear-gradient(185deg, #b4ae9b, #787360); -webkit-background-clip: text; background-clip: text; }
-  .verse .ln { display: block; font-size: clamp(1.3rem, 2.7vw, 2.9rem); letter-spacing: .3em; line-height: 1.25; white-space: nowrap; }
+  .verse .ln { display: block; font-size: clamp(1.3rem, 2.7vw, 2.9rem); letter-spacing: .3em; line-height: 1.25; margin-bottom: .6em; white-space: nowrap; }
   .verse .ln + .ln { margin-top: .5em; }
   .verse .l1 { opacity: .8; }
   .verse .l2 { padding-left: 1em; opacity: .9; }
@@ -158,18 +160,18 @@
     .duo { margin: 0 -22px; }
     .duo img { transform: translateY(var(--dy, 0px)); }
     .duo img { max-height: 54vh; width: 100%; object-fit: cover; object-position: 30% 45%; }
-    .verse .ln { font-size: clamp(1.1rem, 4.7vw, 1.6rem); letter-spacing: .26em; white-space: normal; transition-duration: 2.6s; }
-    .verse .l1 { --d: 0ms !important; } .verse .l2 { --d: 900ms !important; } .verse .l3 { --d: 1800ms !important; }
+    .verse .ln { font-size: clamp(1.1rem, 4.7vw, 1.6rem); letter-spacing: .26em; white-space: normal; transition-duration: 1.7s; margin-bottom: .85em; }
+    .verse .l1 { --d: 0ms !important; } .verse .l2 { --d: 450ms !important; } .verse .l3 { --d: 900ms !important; }
     .verse .l2 { padding-left: .8em; } .verse .l3 { padding-left: 1.6em; } .verse .mid { margin-left: 2.2rem; }
     .nav { padding: 16px 18px; }
     .nav .wm { display: none; }
     .nav nav { gap: 10px; width: 100%; justify-content: space-between; font-size: .7rem; letter-spacing: .22em; }
     .nav nav a { letter-spacing: .22em; font-size: .7rem; }
     .cover { max-width: 520px; margin: 0 auto 28px; }
-    .ring { width: 74vw; box-shadow: 0 0 0 1px rgba(214,130,70,.55), 0 -10px 46px -6px rgba(214,100,50,.55), 0 0 90px -16px rgba(150,40,24,.6); animation-name: breathe3; }
-    .ring::after { background: conic-gradient(from -100deg, rgba(236,170,115,0), rgba(236,170,115,.85) 8%, rgba(214,100,50,.7) 16%, rgba(140,36,24,0) 34%, rgba(140,36,24,0) 100%); }
-    .ring span { font-size: .95rem; color: var(--bone); }
-    @keyframes breathe3 { 0%,100% { filter: brightness(.8); } 50% { filter: brightness(1.15); } }
+    .ring { width: 70vw; box-shadow: 0 0 0 1px rgba(205,120,65,.38), 0 -9px 42px -8px rgba(205,95,48,.4), 0 0 85px -20px rgba(130,34,22,.5); animation-name: breathe3; }
+    .ring::after { background: conic-gradient(from -100deg, rgba(236,170,115,0), rgba(228,160,108,.65) 8%, rgba(205,95,48,.5) 16%, rgba(140,36,24,0) 34%, rgba(140,36,24,0) 100%); }
+    .ring span { font-size: .95rem; color: #b3ad9b; }
+    @keyframes breathe3 { 0%,100% { filter: brightness(.62); } 50% { filter: brightness(.98); } }
     .hero-links { left: 14px; right: 14px; bottom: 84px; gap: 18px; font-size: .74rem; letter-spacing: .243em; }
   }
   @media (prefers-reduced-motion: reduce) {
