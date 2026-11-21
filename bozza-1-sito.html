@@ -18,7 +18,7 @@
     color-scheme: dark;
   }
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; background: var(--black); overflow-x: hidden; }
+  html { background: var(--black); overflow-x: clip; }
   body { margin: 0; background: var(--black); color: var(--bone); font-family: var(--serif); font-weight: 400; font-size: 1.3rem; line-height: 1.55; -webkit-font-smoothing: antialiased; letter-spacing: .05em; overflow-x: clip; }
   a { color: inherit; text-decoration: none; }
   ::selection { background: var(--ember); color: #000; }
@@ -158,13 +158,18 @@
     .duo { margin: 0 -22px; }
     .duo img { transform: translateY(var(--dy, 0px)); }
     .duo img { max-height: 54vh; width: 100%; object-fit: cover; object-position: 30% 45%; }
-    .verse .ln { font-size: clamp(1rem, 4.4vw, 1.5rem); letter-spacing: .2em; white-space: normal; }
+    .verse .ln { font-size: clamp(1.1rem, 4.7vw, 1.6rem); letter-spacing: .26em; white-space: normal; transition-duration: 2.6s; }
+    .verse .l1 { --d: 0ms !important; } .verse .l2 { --d: 900ms !important; } .verse .l3 { --d: 1800ms !important; }
     .verse .l2 { padding-left: .8em; } .verse .l3 { padding-left: 1.6em; } .verse .mid { margin-left: 2.2rem; }
     .nav { padding: 16px 18px; }
     .nav .wm { display: none; }
     .nav nav { gap: 10px; width: 100%; justify-content: space-between; font-size: .7rem; letter-spacing: .22em; }
     .nav nav a { letter-spacing: .22em; font-size: .7rem; }
     .cover { max-width: 520px; margin: 0 auto 28px; }
+    .ring { width: 74vw; box-shadow: 0 0 0 1px rgba(214,130,70,.55), 0 -10px 46px -6px rgba(214,100,50,.55), 0 0 90px -16px rgba(150,40,24,.6); animation-name: breathe3; }
+    .ring::after { background: conic-gradient(from -100deg, rgba(236,170,115,0), rgba(236,170,115,.85) 8%, rgba(214,100,50,.7) 16%, rgba(140,36,24,0) 34%, rgba(140,36,24,0) 100%); }
+    .ring span { font-size: .95rem; color: var(--bone); }
+    @keyframes breathe3 { 0%,100% { filter: brightness(.8); } 50% { filter: brightness(1.15); } }
     .hero-links { left: 14px; right: 14px; bottom: 84px; gap: 18px; font-size: .74rem; letter-spacing: .243em; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -615,6 +620,7 @@
     targets.forEach(function (t) { io.observe(t); });
   } else { targets.forEach(function (t) { t.classList.add('in'); }); }
 
+  [].slice.call(document.querySelectorAll('.nav a[href^="#"]')).forEach(function (a) { a.addEventListener('click', function (e) { var t = document.querySelector(a.getAttribute('href')); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }); });
   var vs = document.getElementById('verse');
   if (vs) { if ('IntersectionObserver' in window && !reduce) { var vo = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { vs.classList.add('in'); vo.disconnect(); } }); }, { threshold: 0 }); vo.observe(vs); } else { vs.classList.add('in'); } }
 
