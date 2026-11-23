@@ -349,9 +349,9 @@
 
   function size() {
     var bb = cv.parentElement.getBoundingClientRect();
-    DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
     W = Math.max(1, bb.width); H = Math.max(1, bb.height);
-    DPR = Math.max(0.4, Math.min(DPR, Math.sqrt(0.75e6 / (W * H))) * (window.__q || 1));
+    DPR = Math.max(0.5, Math.min(DPR, Math.sqrt(4e6 / (W * H))) * (window.__q || 1));
     cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
     cv.style.width = W + 'px'; cv.style.height = H + 'px';
     cx = W / 2; cy = H * 0.46;
@@ -590,8 +590,8 @@
   function loop(now) {
     if (window.__heroOff) { requestAnimationFrame(loop); return; }
     var __d = now - (window.__lt || now); window.__lt = now; window.__ema = (window.__ema || 16) * 0.9 + Math.min(__d, 400) * 0.1; window.__n = (window.__n || 0) + 1;
-    if (window.__n > 25 && window.__ema > 70 && (window.__q || 1) > 0.6) { window.__q = 0.6; window.__n = 0; window.__ema = 16; window.dispatchEvent(new Event('resize')); }
-    else if (window.__n > 25 && window.__ema > 110) { window.__sk3 = (window.__sk3 || 0) + 1; if (window.__sk3 % 3) { requestAnimationFrame(loop); return; } }
+    if (window.__n > 25 && window.__ema > 100 && (window.__q || 1) > 0.7) { window.__q = 0.7; window.__n = 0; window.__ema = 16; window.dispatchEvent(new Event('resize')); }
+    else if (window.__n > 25 && window.__ema > 160) { window.__sk3 = (window.__sk3 || 0) + 1; if (window.__sk3 % 3) { requestAnimationFrame(loop); return; } }
     if ((window.__heroZ || 1) > 1.02) { window.__sk = !window.__sk; if (window.__sk) { requestAnimationFrame(loop); return; } }
     ptr.x += (tgt.x - ptr.x) * 0.04; ptr.y += (tgt.y - ptr.y) * 0.04;
     draw(((now - t0) / 1000) * 0.55 + 6);
