@@ -52,7 +52,7 @@
   #sky { position: absolute; inset: 0; display: block; transform-origin: 50% 46%; will-change: transform, opacity; }
   .title { position: absolute; left: 0; right: 0; top: 46%; transform: translateY(-50%); margin: 0; padding: 0 16px; padding-left: calc(16px + .8em);
     text-align: center; pointer-events: none; font-family: var(--display); font-weight: 400; font-size: clamp(1.05rem, 4.4vw, 4rem); letter-spacing: .8em; white-space: nowrap;
-    color: #efe9d7; text-shadow: 0 0 10px rgba(239,233,215,.45), 0 0 1px rgba(239,233,215,.9); }
+    color: #efe9d7; text-shadow: 0 0 6px rgba(239,233,215,.25); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
   .title span { display: inline-block; animation: rise 2.2s cubic-bezier(.2,.7,.2,1) backwards; animation-delay: calc(var(--i) * 90ms + 400ms); }
   @keyframes rise { from { opacity: 0; filter: blur(12px); transform: translateY(10px); } to { filter: blur(0); transform: none; } }
   .hero-links { position: absolute; left: 28px; right: 28px; bottom: 96px; display: flex; justify-content: center; gap: clamp(22px, 5vw, 64px); flex-wrap: wrap; z-index: 3;
@@ -618,7 +618,7 @@
       window.__heroZ = 1 + 6.5 * e;
       sky.style.opacity = (1 - clamp((p - 0.78) / 0.22)).toFixed(3);
       title.style.opacity = (1 - clamp(p * 2.4)).toFixed(3);
-      title.style.filter = 'blur(' + (0.5 + p * 16).toFixed(1) + 'px)';
+      title.style.filter = p < 0.03 ? 'none' : 'blur(' + (p * 16).toFixed(1) + 'px)';
       links.style.opacity = cue.style.opacity = (1 - clamp(p * 3.5)).toFixed(3);
       window.__heroOff = p >= 1;
     }
