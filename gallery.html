@@ -112,7 +112,7 @@
   /* ---------- album ---------- */
   .album { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 100px); align-items: center; }
   .cover { position: relative; }
-  .cover img { display: block; width: 100%; height: auto; filter: brightness(.82) contrast(1.06); -webkit-mask-image: radial-gradient(ellipse 62% 60% at 50% 50%, #000 55%, rgba(0,0,0,0) 100%); mask-image: radial-gradient(ellipse 62% 60% at 50% 50%, #000 55%, rgba(0,0,0,0) 100%); }
+  .cover img { display: block; width: 100%; height: auto; filter: brightness(.82) contrast(1.06); -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, #000 2.6%), radial-gradient(ellipse 62% 74% at 50% 50%, #000 62%, rgba(0,0,0,0) 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0, #000 2.6%), radial-gradient(ellipse 62% 74% at 50% 50%, #000 62%, rgba(0,0,0,0) 100%); mask-composite: intersect; }
   .cover img { transform: translateY(var(--py, 0px)); will-change: transform; }
   .cover::before { content: ""; position: absolute; left: 50%; top: 3%; width: 56%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; pointer-events: none;
     box-shadow: 0 -6px 40px -8px rgba(224,98,42,.55); animation: breathe 7s ease-in-out infinite; }
@@ -228,7 +228,7 @@
   .more { margin: clamp(48px, 7vw, 90px) 0 0; text-align: center; }
   .gpage #gallery { padding-top: clamp(120px, 15vw, 190px); }
   .gpage .h2 { margin: 0 0 clamp(32px, 5vw, 64px); }
-  .gpage .back { text-align: center; margin: clamp(48px, 7vw, 90px) 0 0; }
+  .gpage .back { text-align: center; margin: clamp(90px, 12vw, 170px) 0 0; }
 
   /* text-link style buttons (no box) */
   .btn { border: 0 !important; border-radius: 0; padding: 8px 2px !important; background: none; border-bottom: 1px solid rgba(214,208,186,.6) !important; }
@@ -268,7 +268,7 @@
       <button type="button" class="gi p rv" style="--ar:0.6667" aria-label="Open photo: Guitarist in blue light" data-full="img/250.webp"><img src="img/th/250.webp" width="480" height="720" alt="Guitarist in blue light" loading="lazy" decoding="async"></button>
     </div>
   </div>
-  <p class="back rv"><a class="btn" href="bozza-1-sito.html"><span aria-hidden="true">&larr;</span> Back to the site</a></p>
+  <p class="back rv"><a class="btn" href="bozza-1-sito.html"><span aria-hidden="true">&larr;</span> Back</a></p>
 </section>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
